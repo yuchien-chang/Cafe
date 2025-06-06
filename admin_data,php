@@ -1,0 +1,18 @@
+<?php
+header('Content-Type: application/json');
+include 'db.php';
+
+$logins = [];
+$login_res = $conn->query("SELECT username, login_time FROM login_logs ORDER BY login_time DESC LIMIT 50");
+while($row = $login_res->fetch_assoc()){
+  $logins[] = $row;
+}
+
+$purchases = [];
+$purchase_res = $conn->query("SELECT username, product_name, purchase_time FROM purchases ORDER BY purchase_time DESC LIMIT 50");
+while($row = $purchase_res->fetch_assoc()){
+  $purchases[] = $row;
+}
+
+echo json_encode(['logins'=>$logins, 'purchases'=>$purchases]);
+?>

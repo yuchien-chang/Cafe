@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Dashboard - Brew Bliss</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <nav id="nav">
+    <div class="navTop">
+      <div class="navItem">
+        <img src="images/Contact/logo.png" alt="logo" class="logo">
+      </div>
+
+      <div class="navItem">
+          <a class="btn" href="index.html">home</a>
+      </div>
+
+      <div class="navItem">
+        <div class="search">
+          <a class="btn" href="search.html">search</a>
+        </div>
+      </div>
+
+      <div class="navItem">
+        <div>
+          <p>text size</p>
+          <input type="range" min="10" max="40" value="16" oninput="document.body.style.fontSize=this.value+'px'">
+        </div>
+      </div>
+
+      <div class="navItem navLinks">
+        <a class="btn" href="cart.html">Menu</a>
+        <a class="btn" href="login.html">Login</a>
+      </div>
+  </nav>
+
+  <header>
+    <h1>Admin Dashboard</h1>
+  </header>
+
+  <section>
+    <h2>Login History</h2>
+    <table>
+      <thead>
+        <tr><th>Username</th><th>Login Time</th></tr>
+      </thead>
+      <tbody id="loginHistory">
+        <!-- Filled by fetch -->
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Purchase History</h2>
+    <table>
+      <thead>
+        <tr><th>Username</th><th>Product</th><th>Purchase Time</th></tr>
+      </thead>
+      <tbody id="purchaseHistory">
+        <!-- Filled by fetch -->
+      </tbody>
+    </table>
+  </section>
+
+  <script>
+    async function loadData() {
+      try {
+        let res = await fetch('admin_data.php');
+        let data = await res.json();
+
+        const loginTbody = document.getElementById('loginHistory');
+        data.logins.forEach(log => {
+          let tr = document.createElement('tr');
+          tr.innerHTML = `<td>${log.username}</td><td>${log.login_time}</td>`;
+          loginTbody.appendChild(tr);
+        });
+
+        const purchaseTbody = document.getElementById('purchaseHistory');
+        data.purchases.forEach(p => {
+          let tr = document.createElement('tr');
+          tr.innerHTML = `<td>${p.username}</td><td>${p.product_name}</td><td>${p.purchase_time}</td>`;
+          purchaseTbody.appendChild(tr);
+        });
+      } catch(e) {
+        console.error(e);
+      }
+    }
+    loadData();
+  </script>
+</body>
+</html>

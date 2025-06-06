@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Search Products - Brew Bliss</title>
+  <link rel="stylesheet" href="style.css" />
+  <script>
+    const products = [
+  { name: "Espresso", image: "Drinks/espresso.jpg", price: 6.00, type: "drink", description: "Strong and bold espresso" },
+  { name: "Latte", image: "Drinks/latte.jpg", price: 8.50, type: "drink", description: "Smooth milk latte" },
+  { name: "Americano", image: "Drinks/americano.jpg", price: 7.00, type: "drink", description: "Espresso with hot water" },
+  { name: "Cappuccino", image: "Drinks/cappuccino.jpg", price: 8.00, type: "drink", description: "Classic cappuccino with foam" },
+  { name: "Mocha", image: "Drinks/mocha.jpg", price: 9.00, type: "drink", description: "Chocolate flavored coffee" },
+  { name: "Apple Juice", image: "Drinks/apple.jpg", price: 5.50, type: "drink", description: "Fresh apple juice" },
+  { name: "Orange Juice", image: "Drinks/Orange.jpg", price: 5.50, type: "drink", description: "Fresh orange juice" },
+  { name: "Watermelon Juice", image: "Drinks/watermelon.jpg", price: 6.00, type: "drink", description: "Refreshing watermelon juice" },
+  { name: "Honey Lemon", image: "Drinks/honeylemon.jpg", price: 5.00, type: "drink", description: "Sweet and tangy honey lemon" },
+  { name: "Lemon Tea", image: "Drinks/LemonTea.jpg", price: 5.00, type: "drink", description: "Cool lemon-flavored tea" },
+  { name: "Strawberry Cake", image: "food/strawberryCake.jpg", price: 12.00, type: "food", description: "Sweet strawberry cake" },
+  { name: "Red Velvet", image: "food/redVelvet.jpg", price: 13.00, type: "food", description: "Rich red velvet cake" },
+  { name: "Brownie", image: "food/brownie.jpg", price: 6.50, type: "food", description: "Chocolate brownie" },
+  { name: "Chocolate Cake", image: "food/chocolateCake.jpg", price: 12.00, type: "food", description: "Delicious chocolate cake" },
+  { name: "Chocolate Cupcake", image: "food/chocolateCupcake.jpg", price: 6.00, type: "food", description: "Moist chocolate cupcake" },
+  { name: "Vanilla Cupcake", image: "food/vanilaCupcake.jpg", price: 6.00, type: "food", description: "Vanilla flavored cupcake" },
+  { name: "Tiramisu", image: "food/tiramisu.jpg", price: 14.00, type: "food", description: "Classic tiramisu dessert" },
+  { name: "Berries Cheesecake", image: "food/berriesCheesecake.jpg", price: 13.50, type: "food", description: "Cheesecake with berries" },
+  { name: "Mango Cheesecake", image: "food/mangoCheesecake.jpg", price: 13.50, type: "food", description: "Mango cheesecake slice" },
+  { name: "Pancake", image: "food/pancake.jpg", price: 7.50, type: "food", description: "Stack of fluffy pancakes" },
+  { name: "Chocolate Mousse", image: "food/chocolateMousse.jpg", price: 9.00, type: "food", description: "Creamy chocolate mousse" }
+];
+
+
+
+    function searchProducts() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const resultsContainer = document.getElementById('searchResults');
+      resultsContainer.innerHTML = '';
+
+      const filtered = products.filter(p => p.name.toLowerCase().includes(query) || p.description.toLowerCase().includes(query));
+
+      if (filtered.length === 0) {
+        resultsContainer.innerHTML = "<p>No products found.</p>";
+        return;
+      }
+
+      filtered.forEach(p => {
+        const div = document.createElement('div');
+        div.classList.add('product-result');
+        div.innerHTML = `<h3>${p.name}</h3><p>${p.description}</p>`;
+        resultsContainer.appendChild(div);
+      });
+    }
+  </script>
+  <style>
+    #searchInput {
+      width: 100%;
+      padding: 0.8rem;
+      border-radius: 12px;
+      border: 2px solid #6c8ea4;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+      box-shadow: 0 0 6px #82aaff44;
+    }
+    .product-result {
+      background: #f0f8ffcc;
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      box-shadow: 1px 1px 5px #6c8ea4aa;
+    }
+  </style>
+</head>
+<body>
+  
+  <nav id="nav">
+    <div class="navTop">
+      <div class="navItem">
+        <img src="images/Contact/logo.png" alt="logo" class="logo">
+      </div>
+
+      <div class="navItem">
+          <a class="btn" href="index.html">home</a>
+      </div>
+
+      <div class="navItem">
+        <div class="search">
+          <a class="btn" href="search.html">search</a>
+        </div>
+      </div>
+
+      <div class="navItem">
+        <div>
+          <p>text size</p>
+          <input type="range" min="10" max="40" value="16" oninput="document.body.style.fontSize=this.value+'px'">
+        </div>
+      </div>
+
+      <div class="navItem navLinks">
+        <a class="btn" href="cart.html">Menu</a>
+        <a class="btn" href="login.html">Login</a>
+      </div>
+  </nav>
+
+  <header><h1>Search Products</h1></header>
+  <main>
+    <input type="text" id="searchInput" placeholder="Search by name or description..." oninput="searchProducts()" />
+    <div id="searchResults"></div>
+  </main>
+</body>
+</html>
