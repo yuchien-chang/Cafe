@@ -6,6 +6,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="style.css" />
 
+    <style>
+        .font_1 { font-size: 24px; }
+        .font_2 { font-size: 20px; }
+        .font_3 { font-size: 16px; }
+    </style>
+    <script>
+        function ChangeFont(fontClass) {
+          document.body.className = fontClass;
+        }
+    </script>
+
 </head>
 <body>
   
@@ -16,19 +27,24 @@
         </div>
 
         <div class="navItem">
-            <a class="btn" href="index.html">home</a>
+            <a class="btn" href="alrlogin.html">Home</a>
         </div>
   
         <div class="navItem">
             <div class="search">
-              <a class="btn" href="search.html">search</a>
+              <a class="btn" href="search.html">Search</a>
             </div>
           </div>
   
         <div class="navItem">
           <div>
-            <p>text size</p>
-            <input type="range" min="10" max="40" value="16" oninput="document.body.style.fontSize=this.value+'px'">
+            <p>Text Size</p>
+              <div>
+                <a class="font_1" onclick="javascript:ChangeFont('font_1');" href="javascript:void(0);">Aa</a>
+                <a class="font_2" onclick="javascript:ChangeFont('font_2');" href="javascript:void(0);">Aa</a>
+                <a class="font_3" onclick="javascript:ChangeFont('font_3');" href="javascript:void(0);">Aa</a>
+              </div>
+
           </div>
         </div>
   
@@ -52,26 +68,29 @@
       </main>
 
       <section id="products">
+
+       <div class="headingM"></div>
         <h2>Menu</h2><br>
+       </div>
 
         <section id="drinks">
             <h2>Drinks</h2>
-  <div class="product-grid" id="drinksGrid"></div>
-  </section>
+              <div class="product-grid" id="drinksGrid"></div>
+        </section>
 
-  <section id="foods">
-    <br><h2>Desserts</h2>
-  <div class="product-grid" id="foodGrid"></div>
-  </section>
+        <section id="foods">
+          <br><h2>Desserts</h2>
+          <div class="product-grid" id="foodGrid"></div>
+        </section>
 
-  <button id="cartToggle" onclick="toggleCart()">View Cart</button>
+        <button id="cartToggle" onclick="toggleCart()">View Cart</button>
 
-  <div id="cart">
-    <h3>Your Cart</h3>
-    <div id="cartItems"></div>
-    <strong>Total: RM <span id="total">0.00</span></strong>
-    <button id="buyNow" onclick="buyNow()">Buy Now</button>
-  </div>
+        <div id="cart">
+          <h3>Your Cart</h3>
+            <div id="cartItems"></div>
+            <strong>Total: RM <span id="total">0.00</span></strong>
+            <button id="buyNow" onclick="buyNow()">Buy Now</button>
+        </div>
 
   <script>
 const products = [
@@ -173,8 +192,9 @@ const products = [
         itemDiv.innerHTML = `
           <span>${item.name} (x${item.qty}) - RM ${(item.price * item.qty).toFixed(2)}</span>
           <span class="cart-controls">
-            <button onclick="addToCart('${item.name}', ${item.price})">+</button>
             <button onclick="decreaseQty('${item.name}')">−</button>
+            <button onclick="addToCart('${item.name}', ${item.price})">+</button>
+  
           </span>
         `;
         cartItems.appendChild(itemDiv);
@@ -215,15 +235,18 @@ const products = [
     <div class="payment">
       <span class="close" onclick="document.getElementById('paymentModal').style.display='none'">X</span>
       <h1 class="payTitle">Personal Information</h1>
-      <form action="data.php" method="POST">
+      <form action="buy.php" method="POST" onsubmit="prepareCartData()">
+
+        <input type="hidden" name="cart" id="cartInput">
+
         <label>Name and Surname</label>
-        <input type="text" name="name" placeholder="Stefan" class="payInput" required><br>
+        <input type="text" name="username" placeholder="Stefan" class="payInput" required><br>
   
         <label>Phone Number</label>
-        <input type="text" name="phone" placeholder="+6012 345 6789" class="payInput" maxlength="13" required><br>
+        <input type="text" name="phone" placeholder="+6012 345 6789" class="payInput"  required><br>
         
         <label>Address</label>
-        <input type="text" name="address" placeholder="10 Downing Street, London SW1A 1AA" class="payInput" maxlength="13" required><br><br>
+        <input type="text" name="address" placeholder="10 Downing Street, London SW1A 1AA" class="payInput" required><br><br>
     
         <h1 class="payTitle">Card Information</h1>
         <div class="cardIcons">
@@ -231,10 +254,10 @@ const products = [
           <img src="./images/Contact/master.png" width="40" class="cardIcon">
         </div>
   
-        <input type="text" name="card_number" class="payInput" placeholder="Card Number" maxlength="16" required>
+        <input type="text" name="card_number" class="payInput" placeholder="Card Number"  required>
         <div class="cardInfo">
-          <input type="text" name="expiry_month" placeholder="mm" class="payInput sm" maxlength="2" required>
-          <input type="text" name="expiry_year" placeholder="yyyy" class="payInput sm" maxlength="4" required>
+          <input type="text" name="expiry_month" placeholder="mm" class="payInput sm"  required>
+          <input type="text" name="expiry_year" placeholder="yyyy" class="payInput sm"  required>
           <input type="text" name="cvv" placeholder="cvv" class="payInput sm" required>
         </div>
   
@@ -243,9 +266,28 @@ const products = [
     </div>
   </div>
 
+  <script>
+    function prepareCartData() {
+    document.getElementById('cartInput').value = JSON.stringify(cart);
+}
+
+
+function buyNow() {
+    if (cart.length === 0) {
+        alert("Your cart is empty!");
+        return;
+    } else {
+        prepareCartData();
+        document.getElementById('paymentModal').style.display = 'flex';
+    }
+}
+
+
+  </script>
+
   <script >
   const productButton = document.querySelector(".productButton");
-    const payment = document.querySelector(".payment");
+    const payment = document.querySelector(".purchasehistory");
     const close = document.querySelector(".close");
     
     productButton.addEventListener("click", () => {
@@ -254,9 +296,11 @@ const products = [
     
     close.addEventListener("click", () => {
       payment.style.display = "none";
-    });</script>
+    });
+    </script>
 
-<section id="about">
+  <section id="about">
+   <div class="headingA"></div>
     <h2>About us</h2>
     <div class="comments-container">
           <p>     At Brew Bliss, it all started with a simple idea — 
@@ -276,10 +320,12 @@ const products = [
         we believe every cup should bring a moment of happiness. 
         Come find your bliss with us!</p>
     </div>
+   </div>>
 
   </section>
 
   <section id="comment">
+   <div class="headingC">
     <h2>Comments</h2>
     <div class="comments-container">      
       <p><strong>Alice:</strong> Love the mocha! Perfect balance of chocolate and coffee.</p>
@@ -288,11 +334,13 @@ const products = [
       <p><strong>Eazin:</strong> Tried their homemade muffins with a cappuccino. Everything tastes so fresh and real!</p>
       
     </div>
+   </div>
   </section>
   
   <section id="FAQ">
+  <div class="headingF">
     <h2>FAQs</h2>
-    <div class="comments-container">
+     <div class="comments-container">
       <p><strong>1. What are your opening hours?</strong><br>
       We’re open every day from 8:00 AM to 9:00 PM. 
       Perfect for early birds and evening chillers alike!
@@ -324,7 +372,7 @@ const products = [
     </p><br>
 
     </div>
-    
+   </div> 
   </section>
   
 
@@ -353,14 +401,7 @@ const products = [
             <li class="fListItem"><a href="#about">About Us</a></li>
           </ul>
       </div>
-      <div class="footerMenu">
-          <h1 class="fMenuTitle">Menu</h1>
-          <ul class="fList">
-            <li class="fListItem"><a href="#drinks">Drinks</a></li>
-            <li class="fListItem"><a href="#foods">Desserts</a></li>
 
-          </ul>
-      </div>
   </div>
   <div class="footerRight">
       <div class="footerRightMenu">
