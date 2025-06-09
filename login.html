@@ -4,6 +4,18 @@
   <meta charset="UTF-8" />
   <title>Login - Brew Bliss</title>
   <link rel="stylesheet" href="style.css" />
+  
+  <style>
+        .font_1 { font-size: 24px; }
+        .font_2 { font-size: 20px; }
+        .font_3 { font-size: 16px; }
+    </style>
+    <script>
+        function ChangeFont(fontClass) {
+          document.body.className = fontClass;
+        }
+    </script>
+
   <script>
     function handleLogin(event) {
       event.preventDefault();
@@ -31,25 +43,20 @@
       </div>
 
       <div class="navItem">
-          <a class="btn" href="index.html">home</a>
+          <a class="btn" href="alrlogin.html">Home</a>
       </div>
 
-      <div class="navItem">
-        <div class="search">
-          <a class="btn" href="search.html">search</a>
-        </div>
-      </div>
+
 
       <div class="navItem">
         <div>
-          <p>text size</p>
-          <input type="range" min="10" max="40" value="16" oninput="document.body.style.fontSize=this.value+'px'">
+          <p>Text Size</p>
+              <div>
+                <a class="font_1" onclick="javascript:ChangeFont('font_1');" href="javascript:void(0);">Aa</a>
+                <a class="font_2" onclick="javascript:ChangeFont('font_2');" href="javascript:void(0);">Aa</a>
+                <a class="font_3" onclick="javascript:ChangeFont('font_3');" href="javascript:void(0);">Aa</a>
+              </div>
         </div>
-      </div>
-
-      <div class="navItem navLinks">
-        <a class="btn" href="cart.html">Menu</a>
-        <a class="btn" href="login.html">Login</a>
       </div>
   </nav>
 
@@ -61,5 +68,41 @@
       <button type="submit">Login</button>
     </form>
   </div>
+
+  <footer>
+  <div class="footerLeft">
+      <div class="footerMenu">
+          <h1 class="fMenuTitle">About Us</h1>
+          <ul class="fList">
+              <li class="fListItem"><strong>Opening hour</strong><br>
+              every day from 8:00 AM to 9:00 PM</li>
+              <li class="fListItem"><strong>Location</strong><br>
+              10 Downing Street, London SW1A 1AA</li>
+              <li class="fListItem"><strong>Contact number</strong><br>
+              +60123456789</li>
+              <li class="fListItem"><strong>Email</strong><br>
+              brewbliss@gmail.com</li>
+          </ul>
+      </div>
+
+  </div>
+  <div class="footerRight">
+      <div class="footerRightMenu">
+          <h1 class="fMenuTitle">Subscribe to our channel</h1>
+      </div>
+      <div class="footerRightMenu">
+          <h1 class="fMenuTitle">Follow Us</h1>
+          <div class="fIcons">
+              <img src="./images/Contact/facebook.png"  alt="facebook" class="fIcon">
+              <img src="./images/Contact/instagram.png" alt="instagram" class="fIcon">
+              <img src="./images/Contact/whatsapp.png" alt="whatsapp" class="fIcon">
+          </div>
+      </div>
+      <div class="footerRightMenu">
+          <span class="copyright">© 2025 Brew Bliss. All rights reserved.</span>
+      </div>
+  </div>
+</footer>
+
 </body>
 </html>
