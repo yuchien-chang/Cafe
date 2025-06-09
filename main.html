@@ -2,10 +2,20 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Brew Bliss - Main</title>
+  <title>Brew Bliss - Welcome</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="style.css" />
-  
+
+    <style>
+        .font_1 { font-size: 24px; }
+        .font_2 { font-size: 20px; }
+        .font_3 { font-size: 16px; }
+    </style>
+    <script>
+        function ChangeFont(fontClass) {
+          document.body.className = fontClass;
+        }
+    </script>
 
 </head>
 <body>
@@ -17,7 +27,7 @@
         </div>
 
         <div class="navItem">
-            <a class="btn" href="index.html">Home</a>
+            <a class="btn" href="alrlogin.html">Home</a>
         </div>
   
         <div class="navItem">
@@ -29,9 +39,12 @@
         <div class="navItem">
           <div>
             <p>Text Size</p>
-              <div class="text"><button onclick="document.body.style.fontSize='12px'">Small</button></div>
-              <div class="text"><button onclick="document.body.style.fontSize='16px'">Medium</button></div>
-              <div class="text"><button onclick="document.body.style.fontSize='20px'">Large</button></div>
+              <div>
+                <a class="font_1" onclick="javascript:ChangeFont('font_1');" href="javascript:void(0);">Aa</a>
+                <a class="font_2" onclick="javascript:ChangeFont('font_2');" href="javascript:void(0);">Aa</a>
+                <a class="font_3" onclick="javascript:ChangeFont('font_3');" href="javascript:void(0);">Aa</a>
+              </div>
+
           </div>
         </div>
   
@@ -39,7 +52,7 @@
           <a class="btn" href="#products">Menu</a>
         </div>
     </nav>
-  
+
     <script>
     function getUserName() {
       const urlParams = new URLSearchParams(window.location.search);
@@ -51,8 +64,7 @@
     };
   </script>
   
-<body>
-  <header><h1>Welcome to Brew Bliss, <span id="welcome-user"></span>!</h1></header>
+      <header><h1>Welcome to Brew Bliss, <span id="welcome-user"></span>!</h1></header>
       <main>
         <section id="intro">
           <section class="intro">
@@ -231,15 +243,18 @@ const products = [
     <div class="payment">
       <span class="close" onclick="document.getElementById('paymentModal').style.display='none'">X</span>
       <h1 class="payTitle">Personal Information</h1>
-      <form action="buy.php" method="POST">
+      <form action="buy.php" method="POST" onsubmit="prepareCartData()">
+
+        <input type="hidden" name="cart" id="cartInput">
+
         <label>Name and Surname</label>
-        <input type="text" name="name" placeholder="Stefan" class="payInput" required><br>
+        <input type="text" name="username" placeholder="Stefan" class="payInput" required><br>
   
         <label>Phone Number</label>
-        <input type="text" name="phone" placeholder="+6012 345 6789" class="payInput" maxlength="13" required><br>
+        <input type="text" name="phone" placeholder="+6012 345 6789" class="payInput"  required><br>
         
         <label>Address</label>
-        <input type="text" name="address" placeholder="10 Downing Street, London SW1A 1AA" class="payInput" maxlength="13" required><br><br>
+        <input type="text" name="address" placeholder="10 Downing Street, London SW1A 1AA" class="payInput" required><br><br>
     
         <h1 class="payTitle">Card Information</h1>
         <div class="cardIcons">
@@ -247,10 +262,10 @@ const products = [
           <img src="./images/Contact/master.png" width="40" class="cardIcon">
         </div>
   
-        <input type="text" name="card_number" class="payInput" placeholder="Card Number" maxlength="16" required>
+        <input type="text" name="card_number" class="payInput" placeholder="Card Number"  required>
         <div class="cardInfo">
-          <input type="text" name="expiry_month" placeholder="mm" class="payInput sm" maxlength="2" required>
-          <input type="text" name="expiry_year" placeholder="yyyy" class="payInput sm" maxlength="4" required>
+          <input type="text" name="expiry_month" placeholder="mm" class="payInput sm"  required>
+          <input type="text" name="expiry_year" placeholder="yyyy" class="payInput sm"  required>
           <input type="text" name="cvv" placeholder="cvv" class="payInput sm" required>
         </div>
   
@@ -259,9 +274,28 @@ const products = [
     </div>
   </div>
 
+  <script>
+    function prepareCartData() {
+    document.getElementById('cartInput').value = JSON.stringify(cart);
+}
+
+
+function buyNow() {
+    if (cart.length === 0) {
+        alert("Your cart is empty!");
+        return;
+    } else {
+        prepareCartData();
+        document.getElementById('paymentModal').style.display = 'flex';
+    }
+}
+
+
+  </script>
+
   <script >
   const productButton = document.querySelector(".productButton");
-    const payment = document.querySelector(".payment");
+    const payment = document.querySelector(".purchasehistory");
     const close = document.querySelector(".close");
     
     productButton.addEventListener("click", () => {
@@ -270,7 +304,8 @@ const products = [
     
     close.addEventListener("click", () => {
       payment.style.display = "none";
-    });</script>
+    });
+    </script>
 
   <section id="about">
    <div class="headingA"></div>
