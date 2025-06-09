@@ -2,17 +2,17 @@
 header('Content-Type: application/json');
 include 'db.php';
 
-$logins = [];
-$login_res = $conn->query("SELECT username, login_time FROM login_logs ORDER BY login_time DESC LIMIT 50");
-while($row = $login_res->fetch_assoc()){
-  $logins[] = $row;
+$orders = [];
+$order_res = $conn->query("SELECT username, order_id, product_name, quantity, price FROM order_items DESC LIMIT 50");
+while($row = $order_res->fetch_assoc()){
+  $orders[] = $row;
 }
 
 $purchases = [];
-$purchase_res = $conn->query("SELECT username, product_name, purchase_time FROM purchases ORDER BY purchase_time DESC LIMIT 50");
+$purchase_res = $conn->query("SELECT username, phone, address, card_number, expiry_month, expiry_year, cvv, purchase_time FROM purchasehistory  DESC LIMIT 50");
 while($row = $purchase_res->fetch_assoc()){
   $purchases[] = $row;
 }
 
-echo json_encode(['logins'=>$logins, 'purchases'=>$purchases]);
+echo json_encode(['orders'=>$orders, 'purchases'=>$purchases]);
 ?>
