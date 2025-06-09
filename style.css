@@ -20,14 +20,16 @@ body {
 }
 
 header{
+  margin-top: 0;
+  padding-top: 1rem;
   text-align: center;
-  margin-bottom: 2rem;
-  color: #3a405a;
+  background-color: #d1e9ed;
+  padding-bottom: 1rem;
 }
 
 h1 {
   font-weight: 900;
-  text-shadow: 1px 1px 3px #a0a7b5;
+  text-shadow: 1px 1px 3px  #6c8ea4;
 }
 
 h2 {
@@ -43,7 +45,13 @@ h2 {
 /* Navigation */
 nav {
   background-color: #ffffff;
-  padding: 1rem 2rem;
+  padding: 0.5px;
+  width: 100%;               /* Ensure full width */
+  position: sticky;           /* Fix to top */
+  top: 0;                    /* Align to top */
+  left: 0;                   /* Ensure full horizontal alignment */
+  z-index: 1000;             /* Make sure it's above other elements */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);  /* Optional: adds subtle shadow */
 }
 
 .navTop {
@@ -52,19 +60,25 @@ nav {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+  width: 100%;               /* Add this to keep internal layout full width */
 }
 
+/* navItem */
 .navItem img {
   max-width: 120px;
   height: auto;
+  margin-left: 50px;
 }
-
 
 /* Intro Section */
 .intro {
   text-align: center;
   margin-bottom: 2rem;
   padding: 1rem;
+}
+
+.headingM{
+  padding-top: 40px;
 }
 
 .btn {
@@ -78,6 +92,7 @@ nav {
   transition: background-color 0.3s ease;
   display: inline-block;
   margin-top: 1rem;
+  margin-right: 50px;
 }
 
 .btn:hover {
@@ -88,13 +103,14 @@ nav {
 /* Login Box */
 .login-box {
   background: #f0f8ffcc;
-  padding: 2rem;
+  padding: 1rem;
   border-radius: 20px;
   width: 100%;
   max-width: 320px;
   margin: auto;
   box-shadow: 0 0 10px #6c8ea4;
   text-align: center;
+  margin-top:20px;
 }
 
 .login-box h2 {
@@ -354,7 +370,53 @@ label {
   padding: 2px;
 }
 
+/* Admin */
+
+table {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: azure;
+}
+th {
+    border: 1px solid #070707;
+    padding: 12px;
+    background-color: #000000c7;
+    color: white;
+}
+td {
+    border:0.5px solid #111111;
+}
+h2 {
+    font-size: 28px;
+    color: #333;
+    text-align: center;
+}
+
+.navItem{
+  margin-right: 20px;
+}
+
+.dashboard-main {
+  display: flex;
+  flex: 1;
+  padding: 20px;
+  gap: 20px;
+}
+
 /* Comments */
+.headingA{
+  padding-top: 127px;
+}
+
+.headingC{
+  padding-top:130px;
+}
+
+.headingF{
+  padding-top:125px;
+}
+
 .comments-container {
   background: #e8f0f7;
   border-radius: 20px;
@@ -362,6 +424,7 @@ label {
   max-width: 700px;
   margin: 1rem auto 3rem;
   box-shadow: 2px 2px 12px rgba(108, 142, 164, 0.4);
+
 }
 
 .comments-container p {
@@ -371,29 +434,32 @@ label {
 }
 
 .footer {
-  display: flex;
+  text-align: center;
 }
 
 .footerLeft {
   flex: 2;
-  display: flex;
+  text-align: center;
   justify-content: space-between;
   padding: 50px;
 }
 
 .fMenuTitle {
   font-size: 16px;
+  text-align: center;
 }
 
 .fList {
   padding: 0;
   list-style: none;
+  text-align: center;
 }
 
 .fListItem {
   margin-bottom: 10px;
   color: gray;
   cursor: pointer;
+  text-align: center;
 }
 
 .footerRight {
@@ -402,6 +468,7 @@ label {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  text-align: center;
 }
 
 .fInput {
@@ -416,6 +483,8 @@ label {
 
 .fIcons{
   display: flex;
+  justify-content:center;
+  align-items:center;
 }
 
 .fIcon{
@@ -427,6 +496,7 @@ label {
 .copyright{
   font-weight: 300;
   font-size: 14px;
+  text-align: center;
 }
 
 /* Media Queries for Responsiveness */
