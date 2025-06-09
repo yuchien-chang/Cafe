@@ -1,57 +1,56 @@
 <?php
 include 'db.php';
-$username = $_POST['username'];
-$product = $_POST['product'];
+header('Content-Type: text/html; charset=utf-8');
 
-$stmt = $conn->prepare("INSERT INTO purchases (username, product_name, purchase_time) VALUES (?, ?, NOW())");
-$stmt->bind_param("ss", $username, $product);
-$stmt->execute();
+// Get customer details safely
+$username    = $conn->real_escape_string($_POST['username']);
+$phone       = $conn->real_escape_string($_POST['phone']);
+$address     = $conn->real_escape_string($_POST['address']);
+$card_number = $conn->real_escape_string($_POST['card_number']);
+$expiry_month= $conn->real_escape_string($_POST['expiry_month']);
+$expiry_year = $conn->real_escape_string($_POST['expiry_year']);
+$cvv         = $conn->real_escape_string($_POST['cvv']);
 
-echo "<h1>Thank you, $username!</h1><p>Your order for $product has been received.</p>";
-?>
-<?php
-// Simple script to handle payment form POST
+// Step 1: Insert order into purchasehistory
+$sql_order = "
+    INSERT INTO purchasehistory (username, phone, address, card_number, expiry_month, expiry_year, cvv)
+    VALUES ('$username', '$phone', '$address', '$card_number', '$expiry_month', '$expiry_year', '$cvv')
+";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Collect and sanitize inputs
-    $name = htmlspecialchars(trim($_POST['name'] ?? ''));
-    $phone = htmlspecialchars(trim($_POST['phone'] ?? ''));
-    $address = htmlspecialchars(trim($_POST['address'] ?? ''));
-    $card_number = htmlspecialchars(trim($_POST['card_number'] ?? ''));
-    $expiry_month = htmlspecialchars(trim($_POST['expiry_month'] ?? ''));
-    $expiry_year = htmlspecialchars(trim($_POST['expiry_year'] ?? ''));
-    $cvv = htmlspecialchars(trim($_POST['cvv'] ?? ''));
+if ($conn->query($sql_order) === TRUE) {
+    $order_id = $conn->insert_id;  // Get the generated order ID
 
-    // Basic validation
-    if (!$name || !$phone || !$address || !$card_number || !$expiry_month || !$expiry_year || !$cvv) {
-        echo "Please fill in all required fields.";
+    // Step 2: Insert order items
+    $cart_json = $_POST['cart'] ?? '[]';
+    $cart_items = json_decode($cart_json, true);
+
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        echo "Error decoding cart JSON: " . json_last_error_msg();
         exit;
     }
 
-    // Here you could add further validation for phone, card number format, etc.
+    if (is_array($cart_items)) {
+        foreach ($cart_items as $item) {
+            $product_name = $conn->real_escape_string($item['name']);
+            $quantity     = (int)$item['qty'];
+            $price        = (float)$item['price'];
 
-    // For simulation, save data to a file
-    $data = [
-        'name' => $name,
-        'phone' => $phone,
-        'address' => $address,
-        'card_number' => $card_number,
-        'expiry_month' => $expiry_month,
-        'expiry_year' => $expiry_year,
-        'cvv' => $cvv,
-        'timestamp' => date('Y-m-d H:i:s')
-    ];
+            $sql_item = "
+                INSERT INTO order_items (order_id, product_name, quantity, price)
+                VALUES ('$order_id', '$product_name', '$quantity', '$price')
+            ";
 
-    // Append to a file (simulate database)
-    $file = 'payments.txt';
-    file_put_contents($file, json_encode($data) . PHP_EOL, FILE_APPEND);
+            if (!$conn->query($sql_item)) {
+                echo "Error inserting order item: " . $conn->error;
+            }
+        }
+    }
 
-    // Return confirmation page or message
-    echo "<h2>Thank you, $name!</h2>";
-    echo "<p>Your payment has been received and is being processed.</p>";
-    echo "<a href='index.html'>Back to Menu</a>";
+    // Success message and redirect
+    echo "<script>alert('Thank you, $username! Your order has been received.');</script>";
+    echo "<script>window.setTimeout(function(){ window.location.href = 'alrlogin.html'; }, 1000);</script>";
+
 } else {
-    // If not POST request, reject
-    echo "Invalid request.";
+    echo "Error inserting order: " . $conn->error;
 }
 ?>
