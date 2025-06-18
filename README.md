@@ -6,7 +6,6 @@ Our slide ---> https://www.canva.com/design/DAGpjbT7DHo/gnk3DJ5_m9IFdH7wKamANQ/e
 
 ![image](https://github.com/user-attachments/assets/3cf1011e-737d-41e5-bf14-66e5712746c1)<br><br>
 
-![image]([https://github.com/user-attachments/assets/7b974f9d-d3e5-4c2d-adc9-44c3b7e0990c])<br><br>
 <h2><strong>How to view admin page</strong></h2>
 
 ![image](https://github.com/user-attachments/assets/a956c1bb-0ff8-4eae-b1f5-38f190671da3)<br><br>
