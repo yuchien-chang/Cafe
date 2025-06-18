@@ -5,6 +5,12 @@
   <title>Login - Brew Bliss</title>
   <link rel="stylesheet" href="style.css" />
   
+  <script>
+  function togglePassword() {
+    const pw = document.getElementById("password");
+    pw.type = pw.type === "password" ? "text" : "password";
+  }
+</script>
   <style>
         .font_1 { font-size: 24px; }
         .font_2 { font-size: 20px; }
@@ -63,10 +69,15 @@
   <div class="login-box">
     <h2>Login</h2>
     <form onsubmit="handleLogin(event)">
-      <input id="username" type="text" placeholder="Username" required />
-      <input id="password" type="password" placeholder="Password" required />
-      <button type="submit">Login</button>
-    </form>
+  <input id="username" type="text" placeholder="Username" required />
+  <div style="position: relative;">
+    <input id="password" type="password" placeholder="Password" required style="padding-right: 30px;" />
+    <span onclick="togglePassword()" style="position: absolute; right: 10px; top: 35%; transform: translateY(-50%); cursor: pointer;">👁️</span>
+  </div>
+  <button type="submit">Login</button>
+      
+
+</form>
   </div>
 
   <footer>
