@@ -1,6 +1,11 @@
-<?php
+1<?php
 include 'db.php';
 header('Content-Type: text/html; charset=utf-8');
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    echo "<script>alert('Invalid request method.');</script>";
+    exit;
+}
 
 // Get customer details safely
 $username    = $conn->real_escape_string($_POST['username']);
@@ -17,17 +22,26 @@ $sql_order = "
     VALUES ('$username', '$phone', '$address', '$card_number', '$expiry_month', '$expiry_year', '$cvv')
 ";
 
-if ($conn->query($sql_order) === TRUE) {
+
+
+if ($conn->query($sql_order) === TRUE ) {
     $order_id = $conn->insert_id;  // Get the generated order ID
 
     // Step 2: Insert order items
     $cart_json = $_POST['cart'] ?? '[]';
+
+    if (empty($cart_json)) {
+        echo "<script>alert('Cart data is missing!');</script>";
+        exit;
+    }
+
     $cart_items = json_decode($cart_json, true);
 
     if (json_last_error() !== JSON_ERROR_NONE) {
-        echo "Error decoding cart JSON: " . json_last_error_msg();
-        exit;
-    }
+    echo "<script>alert('Cart JSON Error: " . json_last_error_msg() . "');</script>";
+    exit;
+}
+
 
     if (is_array($cart_items)) {
         foreach ($cart_items as $item) {
@@ -36,19 +50,24 @@ if ($conn->query($sql_order) === TRUE) {
             $price        = (float)$item['price'];
 
             $sql_item = "
-                INSERT INTO order_items (order_id, product_name, quantity, price)
-                VALUES ('$order_id', '$product_name', '$quantity', '$price')
+                INSERT INTO order_items (username, product_name, quantity, price)
+                VALUES ('$username', '$product_name', '$quantity', '$price')
             ";
 
             if (!$conn->query($sql_item)) {
-                echo "Error inserting order item: " . $conn->error;
-            }
+    echo "<script>alert('Error inserting order item: " . $conn->error . "');</script>";
+}
+
         }
-    }
+    
 
     // Success message and redirect
     echo "<script>alert('Thank you, $username! Your order has been received.');</script>";
-    echo "<script>window.setTimeout(function(){ window.location.href = 'alrlogin.html'; }, 1000);</script>";
+    echo "<script>window.setTimeout(function(){ window.location.href = 'index.html'; }, 1000);</script>";
+
+    }else {
+        echo "<script>alert('Cart items are not in array format.');</script>";
+    }
 
 } else {
     echo "Error inserting order: " . $conn->error;
